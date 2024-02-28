@@ -10,6 +10,7 @@ readme = "README.md"
 python = "^3.11"
 Django = "^5.0.2"
 environ = "^1.0"
+psycopg2 = "^2.9.9"
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^8.0.2"
