@@ -1,0 +1,55 @@
+version: "3.8"
+
+volumes:
+  pgdata:
+  static:
+  media:
+
+services:
+
+  compose_django_back_afone:
+    build:
+      context: .
+    ports:
+      - "8000:8000"
+    container_name: django_afone
+    env_file:
+      - ./docker/env/.env.dev
+    volumes:
+      - ./:/afone_music_website
+      - static:/afone_music_website/static
+      - media:/afone_music_website/media
+    depends_on:
+      - db_postgres
+    command: sh -c "python manage.py collectstatic --no-input &&
+                    python manage.py runserver 0.0.0.0:8000"
+
+  nginx:
+    container_name: nginx
+    working_dir: /afone_music_website
+    image: nginx:stable-alpine
+    restart: always
+    ports:
+      - "8080:80"
+    volumes:
+      - static:/afone_music_website/static
+      - media:/afone_music_website/media
+      - ./docker/nginx/dev/:/etc/nginx/conf.d:ro
+    links:
+      - compose_django_back_afone
+    depends_on:
+      - compose_django_back_afone
+
+  db_postgres:
+    image: postgres:alpine
+    container_name: db_postgres
+    restart: always
+    env_file:
+      - ./docker/env/.env.dev
+    volumes:
+      - pgdata:/var/lib/postgresql/data/
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U $POSTGRES_USER -d $POSTGRES_DB" ]
+      interval: 10s
+      timeout: 30s
+      retries: 5
