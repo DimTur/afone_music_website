@@ -19,8 +19,8 @@ RUN pip install poetry && poetry config virtualenvs.create false
 COPY ./pyproject.toml .
 RUN poetry install --no-dev
 
-CMD python manage.py collectstatic \
-    && gunicorn prediction.wsgi:application --bind 0.0.0.0:8000
+CMD python manage.py collectstatic --no-input \
+    && gunicorn afone_web.wsgi:application --bind 0.0.0.0:8000
 
 
 
