@@ -1,21 +1,21 @@
+import os
 from pathlib import Path
 import environ
-
-# work with env.dev
-env = environ.Env()
-
-environ.Env.read_env(env_file=Path("./docker/env/.env.dev"))
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+# work with env.dev
+env = environ.Env()
+environ.Env.read_env(env_file=os.path.join(BASE_DIR, "docker/env/.dev.env"))
+
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = env('SECRET_KEY')
+SECRET_KEY = env("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = int(env('DEBUG', default=1))
+DEBUG = int(env("DEBUG", default=1))
 
-ALLOWED_HOSTS = env('ALLOWED_HOSTS').split()
+ALLOWED_HOSTS = env("ALLOWED_HOSTS").split()
 
 CSRF_TRUSTED_ORIGINS = env('CSRF_TRUSTED_ORIGINS').split()
 
