@@ -13,7 +13,7 @@ environ.Env.read_env(env_file=os.path.join(BASE_DIR, "docker/env/.dev.env"))
 SECRET_KEY = env("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = int(env("DEBUG", default=1))
+DEBUG = int(env("DEBUG", default=True))
 
 ALLOWED_HOSTS = env("ALLOWED_HOSTS").split()
 

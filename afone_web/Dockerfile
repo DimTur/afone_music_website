@@ -21,26 +21,3 @@ RUN poetry install --no-dev
 
 CMD python manage.py collectstatic --no-input \
     && gunicorn afone_web.wsgi:application --bind 0.0.0.0:8000
-
-
-
-#
-## Install Poetry
-#RUN pip install --upgrade pip && \
-#    pip install poetry
-#
-## Copy only the dependencies definition to leverage Docker cache
-#WORKDIR /afone_web
-#COPY poetry.lock pyproject.toml ./
-#
-## Install project dependencies
-#RUN poetry install --no-root --no-dev
-#
-## Copy the application code
-#COPY . /app/
-#
-## Set appropriate permissions
-#RUN chmod -R 777 .
-#
-## Remove build dependencies
-#RUN apk del .build-deps
