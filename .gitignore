@@ -1,2 +1,10 @@
+# python stuff
 __pycache__/
+.venv/
 *.pyc
+
+# ide stuff
+.idea
+
+# django stuff
+media/
